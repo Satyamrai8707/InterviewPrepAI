@@ -21,9 +21,9 @@ const Signup = ({ setCurrentPage }) => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    // TODO: Implement signup logic here
-
+  
     let profileImgUrl = "";
+  
     if (!fullname) {
       setError("Please enter your full name.");
       return;
@@ -36,30 +36,30 @@ const Signup = ({ setCurrentPage }) => {
       setError("Password must be at least 8 characters long.");
       return;
     }
+  
     setError("");
-
-    // Call your signup API here
+  
     try {
-      //upload profile image if exists
+      // Upload image if present
       if (profilePic) {
         const imgUploadRes = await uploadImage(profilePic); 
         profileImgUrl = imgUploadRes.imageUrl || "";
-        const uploadResponse = await axiosInstance.post(API_PATHS.auth.register,{
-          name : fullname,
-          email,
-          password,
-          profileImageUrl: profileImgUrl,
-        }
-        );
-        const {token} = uploadResponse.data;
-        // Store the token in localStorage or cookies
-        if (token) {
-          localStorage.setItem("token", token);
-          // Update user context
-          updateUser(uploadResponse.data);
-          navigate("/dashboard");
-        }
-
+      }
+  
+      // Signup API Call (moved outside the image condition)
+      const uploadResponse = await axiosInstance.post(API_PATHS.auth.register, {
+        name: fullname,
+        email,
+        password,
+        profileImageUrl: profileImgUrl,
+      });
+  
+      const { token } = uploadResponse.data;
+  
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(uploadResponse.data);
+        navigate("/dashboard");
       }
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -69,6 +69,7 @@ const Signup = ({ setCurrentPage }) => {
       }
     }
   };
+  
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
