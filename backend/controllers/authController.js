@@ -29,19 +29,25 @@ const registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     // Create new user
-    const user = await User.create({
+    const userData = {
       name,
       email,
       password: hashedPassword,
-      profileImageUrl,
-    });
+    };
+
+    // Add profileImageUrl if it exists
+    if (profileImageUrl) {
+      userData.profileImageUrl = profileImageUrl;
+    }
+
+    const user = await User.create(userData);
 
     // return user data with JWT token
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
-      profileImageUrl: user.profileImageUrl,
+      profileImageUrl: user.profileImageUrl || null,
       token: generateToken(user._id),
     });
   } catch (error) {
