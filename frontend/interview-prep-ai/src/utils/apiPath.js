@@ -26,6 +26,6 @@ export const API_PATHS = {
   },
   ai: {
     generateQuestions: "/api/ai/generate-questions",
-    generateExplanations: "/api/ai/generate-explanations",
+    generateExplanations: "/api/ai/generate-explainations",
   },
 };

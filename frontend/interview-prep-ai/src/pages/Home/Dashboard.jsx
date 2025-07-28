@@ -10,6 +10,7 @@ import SummaryCard from "../../components/Cards/SummaryCard";
 import moment from "moment";
 import Modal from "../../components/Modal";
 import CreateSessionForm from "./CreateSessionForm";
+import DeleteAlertContent from "../../components/DeleteAlertContent";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -29,7 +30,21 @@ const Dashboard = () => {
       toast.error("Failed to fetch sessions. Please try again later.");
     }
   };
-  const deleteSession = async (sessionId) => {};
+  const deleteSession = async (sessionId) => {
+    try {
+      await axiosInstance.delete(API_PATHS.sessions.delete(sessionId?._id))
+      toast.success("Session Delete Successfully")
+      setOpenDeleteAlert({
+        open: false,
+        data: null,
+      })
+      fetchAllSessions()
+      
+    } catch (error) {
+      console.error("Error deleting session data: ",error);
+      
+    }
+  };
   useEffect(() => {
     fetchAllSessions();
   }, []);
@@ -42,7 +57,7 @@ const Dashboard = () => {
               key={data?._id}
               colors={CARD_BG[index % CARD_BG.length]}
               role={data?.role || ""}
-              topicsToFocus={data?.topicToFocusOn || ""} 
+              topicsToFocus={data?.topicToFocusOn || ""}
               experince={data?.experience || "-"}
               questions={data?.questions?.length || "-"}
               description={data?.description || ""}
@@ -69,19 +84,30 @@ const Dashboard = () => {
           Add New
         </button>
       </div>
-        {/* Create Session Modal */}
-        <Modal 
+      {/* Create Session Modal */}
+      <Modal
         isOpen={openCreateModel}
-            onClose={() => {
-              setOpenCreateModel(false)
-            }}
-            hideHeader
-        >
-            <div>
-              <CreateSessionForm/>
-            </div>
-
-        </Modal>
+        onClose={() => {
+          setOpenCreateModel(false);
+        }}
+        hideHeader
+      >
+        <div>
+          <CreateSessionForm />
+        </div>
+      </Modal>
+      <Modal
+        isOpen={openDeleteAlert?.open}
+        onClose={() => setOpenDeleteAlert({ open: false, data: null })}
+        title="Delete Alert"
+      >
+        <div className="w-[30vw]">
+          <DeleteAlertContent
+            content="Are you sure want to delete this session detail?"
+            onDelete={() => deleteSession(openDeleteAlert.data)}
+          />
+        </div>
+      </Modal>
     </DashboardLayout>
   );
 };

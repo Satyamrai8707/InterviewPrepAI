@@ -42,30 +42,41 @@ const generateInterviewQuestions = async (req, res) => {
 //@access Private
 
 const generateConceptExplanations = async (req, res) => {
-    try{
-        const { question } = req.body;
-        if (!question) {
-            return res.status(400).json({ message: "Question is required" });
-        }
-        const prompt = conceptExplanPrompt(question);
-        const response = await ai.models.generateContent({
-            model: "gemini-2.0-flash-lite",
-            contents: prompt,
-        });
-        let rawText = response.text;
-        // Clean the text to remove starting json and ending
-        const cleanText = rawText.replace(/```json|```/g, "").trim();
-        // Parse the cleaned text as JSON
-        const data = JSON.parse(cleanText);
-        res.status(200).json(data);
-
-
+    try {
+      const { question } = req.body;
+      if (!question) {
+        return res.status(400).json({ message: "Question is required" });
+      }
+  
+      const prompt = conceptExplanPrompt(question);
+  
+      const response = await ai.models.generateContent({
+        model: "gemini-2.0-flash-lite",
+        contents: prompt,
+      });
+  
+      const rawText = response?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+  
+      const cleanText = rawText.replace(/```json|```/g, "").trim();
+  
+      if (!cleanText.startsWith("{") && !cleanText.startsWith("[")) {
+        console.warn("❌ Unexpected format:", cleanText.slice(0, 200));
+        return res.status(500).json({ message: "Invalid AI response format" });
+      }
+  
+      const data = JSON.parse(cleanText);
+      res.status(200).json(data);
+    } catch (error) {
+      console.error("❌ Error generating concept explanations:", error);
+      return res.status(500).json({
+        message:
+          error?.response?.data?.message ||
+          error?.message ||
+          "Internal server error",
+      });
     }
-    catch (error) {
-        console.error("Error generating concept explanations:", error);
-        res.status(500).json({ message: "Internal server error" });
-    }
-}
+  };
+  
 
 module.exports = {
     generateInterviewQuestions,

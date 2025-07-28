@@ -17,33 +17,33 @@ export const APP_FEATURES = [
     {
         id:"01",
         title: "Tailored Just for You",
-        desciption: "Get interview questions and mock interviews tailored to your specific job role and industry.",
+        description: "Get interview questions and mock interviews tailored to your specific job role and industry.",
 
     },
     {
         id:"02",
         title: "AI-Powered Mock Interviews",
-        desciption: "Experience realistic mock interviews with AI-generated questions and instant feedback to improve your performance.",
+        description: "Experience realistic mock interviews with AI-generated questions and instant feedback to improve your performance.",
     },
     {
         id:"03",
         title: "Track Your Progress",
-        desciption: "Monitor your interview preparation progress with detailed analytics and performance metrics.",
+        description: "Monitor your interview preparation progress with detailed analytics and performance metrics.",
     },
     {
         id:"04",
         title: "Expert Tips and Resources",
-        desciption: "Access a wealth of expert tips, resources, and best practices to enhance your interview skills.",
+        description: "Access a wealth of expert tips, resources, and best practices to enhance your interview skills.",
     },
     {
         id:"05",
         title: "Community Support",
-        desciption: "Join a community of job seekers to share experiences, ask questions, and get support throughout your preparation journey.",
+        description: "Join a community of job seekers to share experiences, ask questions, and get support throughout your preparation journey.",
     },
     {
         id:"06",
         title: "Personalized Learning Paths",
-        desciption: "Follow personalized learning paths based on your skills, experience, and career goals to maximize your preparation.",
+        description: "Follow personalized learning paths based on your skills, experience, and career goals to maximize your preparation.",
     },
 
 ]
