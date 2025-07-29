@@ -107,14 +107,32 @@ npm start
   <thead>
     <tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
   </thead>
-  <tbody>
-    <tr><td>POST</td><td>/api/auth/register</td><td>Register new user</td></tr>
-    <tr><td>POST</td><td>/api/auth/login</td><td>Login existing user</td></tr>
-    <tr><td>GET</td><td>/api/auth/profile</td><td>Get user profile</td></tr>
-    <tr><td>POST</td><td>/api/sessions</td><td>Create a new interview session</td></tr>
-    <tr><td>GET</td><td>/api/sessions/:id</td><td>Get session by ID</td></tr>
-    <tr><td>POST</td><td>/api/ai/generate</td><td>Generate questions using OpenAI</td></tr>
-  </tbody>
+<tbody>
+  <!-- 🔐 Auth Routes -->
+  <tr><td>POST</td><td>/api/auth/register</td><td>Register new user</td></tr>
+  <tr><td>POST</td><td>/api/auth/login</td><td>Login existing user</td></tr>
+  <tr><td>GET</td><td>/api/auth/profile</td><td>Get user profile</td></tr>
+  <tr><td>POST</td><td>/api/auth/logout</td><td>Logout user</td></tr>
+  <tr><td>POST</td><td>/api/auth/upload-image</td><td>Upload profile image</td></tr>
+
+  <!-- 📝 Sessions -->
+  <tr><td>POST</td><td>/api/sessions/create</td><td>Create a new interview session</td></tr>
+  <tr><td>GET</td><td>/api/sessions/my-sessions</td><td>Get all sessions for logged-in user</td></tr>
+  <tr><td>GET</td><td>/api/sessions/:id</td><td>Get session by ID</td></tr>
+  <tr><td>PUT</td><td>/api/sessions/update/:id</td><td>Update session by ID</td></tr>
+  <tr><td>DELETE</td><td>/api/sessions/:id</td><td>Delete session by ID</td></tr>
+
+  <!-- 📄 Questions -->
+  <tr><td>POST</td><td>/api/questions/add</td><td>Add question to session</td></tr>
+  <tr><td>GET</td><td>/api/questions/:id</td><td>Get question by ID</td></tr>
+  <tr><td>PATCH</td><td>/api/questions/:id/pin</td><td>Toggle pin for a question</td></tr>
+  <tr><td>PATCH</td><td>/api/questions/:id/note</td><td>Update note for a question</td></tr>
+
+  <!-- 🤖 AI -->
+  <tr><td>POST</td><td>/api/ai/generate-questions</td><td>Generate interview questions using OpenAI</td></tr>
+  <tr><td>POST</td><td>/api/ai/generate-explainations</td><td>Generate explanations for questions</td></tr>
+</tbody>
+
 </table>
 
 <h2>🌐 Live Demo</h2>
